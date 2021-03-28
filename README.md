@@ -1,5 +1,5 @@
 # small_profiler
-Simple inline C++ profiling. Outputs a json that can be used with chrome://tracing as a frontend.
+Simple header-only inline C++ profiling. Outputs a json that can be used with chrome://tracing as a frontend.
 
 Include the header then put `PROFILE()` at the begining of any function you wish to profile.
 
