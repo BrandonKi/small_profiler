@@ -44,13 +44,10 @@ namespace small_profiler {
 
                 auto pid = 1;
                 auto tid = 1;
-                auto ts = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count();
+                auto ts = std::chrono::duration_cast<std::chrono::microseconds>(begin - program_start).count();
                 auto dur = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count();
                 auto ph = "X";
                 auto args = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
-
-                std::cout << std::chrono::duration_cast<std::chrono::microseconds>(end.time_since_epoch()).count() << '\n';
-                std::cout << std::chrono::duration_cast<std::chrono::microseconds>(begin.time_since_epoch()).count();
 
                 std::string line = std::string(
                     "{ \"pid\":") + std::to_string(pid) + std::string(", \"tid\":") + std::to_string(tid) +

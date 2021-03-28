@@ -1,1 +1,1 @@
-{ "traceEvents": [{ "pid":1, "tid":1, "ts":813049, "dur":813049, "ph":"X", "name":"helper", "args":{ "ms":813} },{ "pid":1, "tid":1, "ts":1834744, "dur":1834744, "ph":"X", "name":"main", "args":{ "ms":1834} }]}
+{ "traceEvents": [{ "pid":1, "tid":1, "ts":214418, "dur":109201, "ph":"X", "name":"helper", "args":{ "ms":109} },{ "pid":1, "tid":1, "ts":6, "dur":324873, "ph":"X", "name":"main", "args":{ "ms":324} }]}
