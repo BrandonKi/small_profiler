@@ -45,6 +45,10 @@
 #include <windows.h>
 #endif
 
+#ifndef PROFILE_OUTPUT_FILE
+#define PROFILE_OUTPUT_FILE "profile.json"
+#endif
+
 #ifdef NO_PROFILE
 #define PROFILE()
 #else
@@ -62,7 +66,7 @@ namespace small_profiler {
 
     class internal_stream_wrapper {
         public:
-            std::stringstream stream{"profile.json"};        
+            std::stringstream stream{PROFILE_OUTPUT_FILE};        
 
             internal_stream_wrapper() {
                 stream << "{ \"traceEvents\": [";
@@ -70,7 +74,7 @@ namespace small_profiler {
             ~internal_stream_wrapper() {
                 stream.seekp(-1, std::ios_base::end);
                 stream << "]}";
-                std::ofstream out{"profile.json"};
+                std::ofstream out{PROFILE_OUTPUT_FILE};
                 out << stream.str();
             }
     };

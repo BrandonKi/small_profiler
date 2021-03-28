@@ -15,3 +15,5 @@ int main(int, char**) {
 To view the graph go to chrome://tracing click 'load' and select the generated json file.
 
 To turn off profiling define the macro `NO_PROFILE` before including the header file.
+
+To change the name/path of the output file define the 'PROFILE_OUTPUT_FILE' macro and set it to a string  

@@ -2,6 +2,9 @@
 #include <chrono>
 #include <thread>
 
+// #define PROFILE_OUTPUT_FILE "yo.json"
+// #define NO_PROFILE
+
 #include "small_profiler.h"
 
 void helper() {
