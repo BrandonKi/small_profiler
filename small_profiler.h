@@ -3,13 +3,30 @@
 
 #include <iostream>
 #include <fstream>
+#include <thread>
 #include <chrono>
 #include <string>
 #include <sstream>
 
+#if defined(__linux__)
+#include <sys/types.h>
+#include <unistd.h>
+#elif defined(_WIN32)
+#include <windows.h>
+#endif
+
 #define PROFILE() small_profiler::internal_scoped_profiler temp{__FUNCTION__}
 
 namespace small_profiler {
+
+    unsigned long long get_pid() {
+        #if defined(__linux__)
+        return getpid();
+        #elif defined(_WIN32)
+        return GetCurrentProcessId();
+        #endif
+        return -1;
+    }
 
     class internal_stream_wrapper {
         public:
@@ -28,6 +45,7 @@ namespace small_profiler {
 
     internal_stream_wrapper file;
     auto program_start = std::chrono::high_resolution_clock::now();
+    unsigned long long tid_counter = 0;
 
     class internal_scoped_profiler {
         public:
@@ -42,8 +60,8 @@ namespace small_profiler {
                 std::cout << "d\n";
                 auto end = std::chrono::high_resolution_clock::now();
 
-                auto pid = 1;
-                auto tid = 1;
+                auto pid = small_profiler::get_pid();
+                auto tid = tid_counter++;
                 auto ts = std::chrono::duration_cast<std::chrono::microseconds>(begin - program_start).count();
                 auto dur = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count();
                 auto ph = "X";

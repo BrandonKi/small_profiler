@@ -15,4 +15,7 @@ int main(int, char**) {
     std::this_thread::sleep_for(std::chrono::milliseconds(200));
     helper();
 
+    std::thread s{[](){PROFILE();}};
+    s.join();
+
 }
