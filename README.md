@@ -12,4 +12,6 @@ int main(int, char**) {
 }
 ```
 
-To view the graph go to chrome://tracing click 'load' and select the generated json file. 
+To view the graph go to chrome://tracing click 'load' and select the generated json file.
+
+To turn off profiling define the macro `NO_PROFILE` before including the header file.

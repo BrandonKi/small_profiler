@@ -28,6 +28,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *   SOFTWARE.
  */
+#ifndef SMALL_PROFILER_H
 #define SMALL_PROFILER_H
 
 #include <iostream>
@@ -44,8 +45,10 @@
 #include <windows.h>
 #endif
 
+#ifdef NO_PROFILE
+#define PROFILE()
+#else
 #define PROFILE() small_profiler::internal_scoped_profiler temp{__FUNCTION__}
-
 namespace small_profiler {
 
     unsigned long long get_pid() {
@@ -111,6 +114,5 @@ namespace small_profiler {
     };
 
 };
-/// { "pid":1, "tid":1, "ts":546867, "dur":121564, "ph":"X", "name":"DoThings", "args":{ "ms":121.6 } }
-
+#endif
 #endif
