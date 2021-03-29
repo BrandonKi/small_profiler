@@ -52,7 +52,7 @@
 #ifdef NO_PROFILE
 #define PROFILE()
 #else
-#define PROFILE() small_profiler::internal_scoped_profiler temp{__FUNCTION__}
+#define PROFILE() small_profiler::internal_scoped_profiler _small_profiler_temp_{__FUNCTION__}
 namespace small_profiler {
 
     unsigned long long get_pid() {
