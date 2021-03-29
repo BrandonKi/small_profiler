@@ -88,12 +88,10 @@ namespace small_profiler {
             internal_scoped_profiler(std::string name_p):
                 begin(std::chrono::high_resolution_clock::now()), name(name_p)
             {
-                std::cout << "c\n";
                 
             }
 
             ~internal_scoped_profiler() {
-                std::cout << "d\n";
                 auto end = std::chrono::high_resolution_clock::now();
 
                 auto pid = small_profiler::get_pid();
