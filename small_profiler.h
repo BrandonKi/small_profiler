@@ -4,7 +4,7 @@
  * @brief small inline profiler that generates a json usable with chrome://tracing
  * @version 0.1
  * @date 2021-03-28
- * 
+ *
  * @copyright
  * MIT License
  *
@@ -56,73 +56,73 @@
 namespace small_profiler {
 
     inline unsigned long long get_pid() {
-        #if defined(__linux__)
-        return getpid();
-        #elif defined(_WIN32)
-        return GetCurrentProcessId();
-        #endif
-        return -1;
+		#if defined(__linux__)
+			return getpid();
+		#elif defined(_WIN32)
+			return GetCurrentProcessId();
+		#endif
+			return -1;
     }
 
     class internal_stream_wrapper {
-        public:
-            std::stringstream stream{PROFILE_OUTPUT_FILE};        
+    public:
+        std::stringstream stream{ PROFILE_OUTPUT_FILE };
 
-            internal_stream_wrapper() {
-                stream << "{ \"traceEvents\": [";
-            }
-            ~internal_stream_wrapper() {
-                stream.seekp(-1, std::ios_base::end);
-                stream << "]}";
-                std::ofstream out{PROFILE_OUTPUT_FILE};
-                out << stream.str();
-            }
+        internal_stream_wrapper() {
+            stream << "{ \"traceEvents\": [";
+        }
+        ~internal_stream_wrapper() {
+            stream.seekp(-1, std::ios_base::end);
+            stream << "]}";
+            std::ofstream out{ PROFILE_OUTPUT_FILE };
+            out << stream.str();
+        }
 
-            internal_stream_wrapper(const internal_stream_wrapper&) = delete;
-            internal_stream_wrapper& operator = (const internal_stream_wrapper&) = delete;
-            internal_stream_wrapper(const internal_stream_wrapper&&) = delete;
-            internal_stream_wrapper& operator = (internal_stream_wrapper&&) = delete;
+        internal_stream_wrapper(const internal_stream_wrapper&) = delete;
+        internal_stream_wrapper& operator = (const internal_stream_wrapper&) = delete;
+        internal_stream_wrapper(const internal_stream_wrapper&&) = delete;
+        internal_stream_wrapper& operator = (internal_stream_wrapper&&) = delete;
     };
 
-    internal_stream_wrapper file;
-    auto program_start = std::chrono::high_resolution_clock::now();
-    unsigned long long tid_counter = 0;
+    inline internal_stream_wrapper file;
+    inline auto program_start = std::chrono::high_resolution_clock::now();
+    inline unsigned long long tid_counter = 0;
 
     class internal_scoped_profiler {
-        public:
-            explicit internal_scoped_profiler(std::string name_p):
-                name_(std::move(name_p)), begin_(std::chrono::high_resolution_clock::now())
-            {
-                
-            }
+    public:
+        explicit internal_scoped_profiler(std::string name_p) :
+            name_(std::move(name_p)), begin_(std::chrono::high_resolution_clock::now())
+        {
+        	
+        }
 
-            ~internal_scoped_profiler() {
-                const auto end = std::chrono::high_resolution_clock::now();
+        ~internal_scoped_profiler() {
+            const auto end = std::chrono::high_resolution_clock::now();
 
-                const auto pid = small_profiler::get_pid();
-                const auto tid = tid_counter++;
-                const auto ts = std::chrono::duration_cast<std::chrono::microseconds>(begin_ - program_start).count();
-                const auto dur = std::chrono::duration_cast<std::chrono::microseconds>(end - begin_).count();
-                const auto* ph = "X";
-                const auto args = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin_).count();
+            const auto pid = small_profiler::get_pid();
+            const auto tid = tid_counter++;
+            const auto ts = std::chrono::duration_cast<std::chrono::microseconds>(begin_ - program_start).count();
+            const auto dur = std::chrono::duration_cast<std::chrono::microseconds>(end - begin_).count();
+            const auto* ph = "X";
+            const auto args = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin_).count();
 
-                const auto line = std::string(
-                    R"({ "pid":)") + std::to_string(pid) + std::string(R"(, "tid":)") + std::to_string(tid) +
-                    std::string(R"(, "ts":)") + std::to_string(ts) + std::string(R"(, "dur":)") + std::to_string(dur) +
-                    std::string(R"(, "ph":")") + std::string(ph) + std::string(R"(", "name":")") + name_ +
-                    std::string(R"(", "args":{ "ms":)") + std::to_string(args) + std::string("} },"
+            const auto line = std::string(
+                R"({ "pid":)") + std::to_string(pid) + std::string(R"(, "tid":)") + std::to_string(tid) +
+                std::string(R"(, "ts":)") + std::to_string(ts) + std::string(R"(, "dur":)") + std::to_string(dur) +
+                std::string(R"(, "ph":")") + std::string(ph) + std::string(R"(", "name":")") + name_ +
+                std::string(R"(", "args":{ "ms":)") + std::to_string(args) + std::string("} },"
                 );
-                file.stream << line;
-            }
+            file.stream << line;
+        }
 
-            internal_scoped_profiler(const internal_scoped_profiler&) = default;
-            internal_scoped_profiler& operator = (const internal_scoped_profiler&) = default;
-            internal_scoped_profiler(internal_scoped_profiler&&) = default;
-            internal_scoped_profiler& operator = (internal_scoped_profiler&&) = default;
-        
-        private:
-            std::string name_;
-            std::chrono::time_point<std::chrono::high_resolution_clock> begin_;
+        internal_scoped_profiler(const internal_scoped_profiler&) = default;
+        internal_scoped_profiler& operator = (const internal_scoped_profiler&) = default;
+        internal_scoped_profiler(internal_scoped_profiler&&) = default;
+        internal_scoped_profiler& operator = (internal_scoped_profiler&&) = default;
+
+    private:
+        std::string name_;
+        std::chrono::time_point<std::chrono::high_resolution_clock> begin_;
     };
 
 };
