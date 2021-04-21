@@ -60,8 +60,9 @@ namespace small_profiler {
 			return getpid();
 		#elif defined(_WIN32)
 			return GetCurrentProcessId();
-		#endif
+		#else
 			return -1;
+		#endif
     }
 
     class internal_stream_wrapper {
