@@ -14,6 +14,20 @@ int main(int, char**) {
     PROFILE();
 }
 ```
+You can also profile arbitrary scopes as long as you give them a custom name
+```cpp
+#include "small_profiler.h"
+
+int main(int, char**) {
+    PROFILE();
+    
+    {
+        PROFILE("WHILE_LOOP");
+        int i = 100000;
+        while(i --> 0) {}
+    }
+}
+```
 
 To view the graph go to chrome://tracing click 'load' and select the generated json file.
 
