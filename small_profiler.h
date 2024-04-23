@@ -122,7 +122,7 @@ namespace small_profiler {
     class internal_scoped_profiler {
     public:
         explicit internal_scoped_profiler(std::string name_p):
-            name_(std::move(name_p)), begin_(std::move(std::chrono::high_resolution_clock::now()))
+            name_(std::move(name_p)), begin_(std::chrono::high_resolution_clock::now())
         {
 
         }
@@ -139,7 +139,7 @@ namespace small_profiler {
             const auto args = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin_).count();
 
             std::unique_lock<std::mutex> lock(scope_table_mutex);
-            file.scope_table.emplace_back(std::move(scope_info{std::move(name_), std::move(std::array<long long, 5>{pid, tid, ts, dur, args})}));
+            file.scope_table.emplace_back(scope_info{std::move(name_), std::array<long long, 5>{pid, tid, ts, dur, args}});
         }
 
         internal_scoped_profiler(const internal_scoped_profiler &) = default;
