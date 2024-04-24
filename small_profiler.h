@@ -1,7 +1,8 @@
 /**
  * @file small_profiler.h
  * @author Brandon Kirincich
- * @brief small inline profiler that generates a json usable with chrome://tracing
+ * @brief small inline profiler that generates a json usable with
+ * chrome://tracing
  * @version 0.1
  * @date 2021-03-28
  *
@@ -17,8 +18,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -28,6 +29,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *   SOFTWARE.
  */
+
+// clang-format off
+
 #ifndef SMALL_PROFILER_H
 #define SMALL_PROFILER_H
 
@@ -93,7 +97,8 @@ namespace small_profiler {
         }
 
         ~internal_stream_wrapper() {
-
+            if(scope_table.empty())
+                return;
             for (const auto &entry : scope_table) {
                 const auto line = std::string(
                                       R"({ "pid":)") +
